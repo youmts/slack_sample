@@ -21,6 +21,6 @@ class SlackController < ApplicationController
     search_result = client.search_messages(query: "on:2019-11-23")
     pp search_result.messages.matches.map { |x| [x.user, Time.at(x.ts.to_f).in_time_zone] }
 
-    redirect_to '/'
+    render text: "test"
   end
 end
