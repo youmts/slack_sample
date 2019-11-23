@@ -23,12 +23,12 @@ class SlackController < ApplicationController
     # search_messages
     debug_messages << "search.all:"
 
-    query = "from:@#{user_id} on:2019-11-24"
+    query = "from:@#{user_id} after:2019-11-23"
     debug_messages << query
     search_result = client.search_all(query: query)
     debug_messages << search_result.messages.matches.map { |x| [x.user, Time.at(x.ts.to_f).in_time_zone] }
 
-    query = "on:2019-11-23"
+    query = "after:2019-11-23"
     debug_messages << query
     search_result = client.search_messages(query: query)
     debug_messages << search_result.messages.matches.map { |x| [x.user, Time.at(x.ts.to_f).in_time_zone] }
