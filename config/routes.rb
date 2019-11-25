@@ -7,5 +7,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'auth/:provider/callback' => 'slack#callback'
+  get 'auth/slack_user/callback' => 'slack#user_callback'
 end
