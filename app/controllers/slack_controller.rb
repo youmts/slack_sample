@@ -29,7 +29,21 @@ class SlackController < ApplicationController
 
       @debug = debug_messages.map(&:pretty_inspect).join("\n")
     else
-      @debug = 'no slack token.'
+      @debug = 'no slack user token.'
+    end
+
+    if session[:slack_admin_token]
+      client = Slack::Web::Client.new(token: session[:slack_admin_token])
+
+      debug_messages = []
+
+      debug_messages << "team.accessLogs"
+      access_logs = client.team_accessLogs
+      debug_messages << access_logs.logins.map { |x| [x.user_id, x.username, to_tz(x.date_first), to_tz(x.date_last), x.count] }
+
+      @debug_admin = debug_messages.map(&:pretty_inspect).join("\n")
+    else
+      @debug_admin = 'no slack admin token.'
     end
   end
 
@@ -38,6 +52,15 @@ class SlackController < ApplicationController
     access_token = request.env['omniauth.strategy'].access_token
 
     session[:slack_user_token] = access_token.token
+
+    redirect_to '/'
+  end
+
+  def admin_callback
+    info = request.env['omniauth.auth'].info
+    access_token = request.env['omniauth.strategy'].access_token
+
+    session[:slack_admin_token] = access_token.token
 
     redirect_to '/'
   end

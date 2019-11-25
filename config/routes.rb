@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   end
 
   get 'auth/slack_user/callback' => 'slack#user_callback'
+  get 'auth/slack_admin/callback' => 'slack#admin_callback'
 end
