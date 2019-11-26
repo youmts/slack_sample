@@ -6,7 +6,79 @@
   <%=simple_format(h(@debug)) %>
 </p>
 
+<h4>
+  user messages
+</h4>
+<table>
+  <thead>
+  <tr>
+    <th>user</th>
+    <th>text</th>
+    <th>time</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @user_messages.each do |message| %>
+    <tr>
+      <td><%= message.user %></td>
+      <td><%= message.text %></td>
+      <td><%= to_tz message.ts %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h4>
+  all messages
+</h4>
+<table>
+  <thead>
+  <tr>
+    <th>user</th>
+    <th>text</th>
+    <th>time</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @all_messages.each do |message| %>
+    <tr>
+      <td><%= message.user %></td>
+      <td><%= message.text %></td>
+      <td><%= to_tz message.ts %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
 <hr>
 <p>
   <%=simple_format(h(@debug_admin)) %>
 </p>
+
+<h4>
+  access logs
+</h4>
+<table>
+  <thead>
+  <tr>
+    <th>user_id</th>
+    <th>user_name</th>
+    <th>date_first</th>
+    <th>date_last</th>
+    <th>count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @access_logs.each do |log| %>
+    <tr>
+      <td><%= log.user_id %></td>
+      <td><%= log.username %></td>
+      <td><%= to_tz log.date_first %></td>
+      <td><%= to_tz log.date_last %></td>
+      <td><%= log.count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%=link_to 'slack連携（ユーザ）', '/auth/slack_user'  %>
+<%=link_to 'slack連携（管理者）', '/auth/slack_admin' %>

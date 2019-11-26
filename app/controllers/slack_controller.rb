@@ -11,21 +11,16 @@ class SlackController < ApplicationController
       debug_messages << conversations.map { |x| x[:name] }
 
       # search_messages
-      debug_messages << "search.all:"
 
       query = "from:@UQAQ91PQB on:2019-11-25"
-      debug_messages << query
+      debug_messages << "user_messages_query: #{query}"
       search_result = client.search_all(query: query)
-      debug_messages << search_result.messages.matches.map { |x| [x.user, x.text, to_tz(x.ts)] }
+      @user_messages = search_result.messages.matches
 
       query = "on:2019-11-25"
-      debug_messages << query
+      debug_messages << "all_messages_query: #{query}"
       search_result = client.search_messages(query: query)
-      debug_messages << search_result.messages.matches.map { |x| [x.user, x.text, to_tz(x.ts)] }
-
-      # debug_messages << "team.accessLogs"
-      # access_logs = client.team_accessLogs
-      # debug_messages << access_logs.logins.map { |x| [x.user_id, x.username, to_tz(x.date_first), to_tz(x.date_last), x.count] }
+      @all_messages = search_result.messages.matches
 
       @debug = debug_messages.map(&:pretty_inspect).join("\n")
     else
@@ -37,9 +32,7 @@ class SlackController < ApplicationController
 
       debug_messages = []
 
-      debug_messages << "team.accessLogs"
-      access_logs = client.team_accessLogs
-      debug_messages << access_logs.logins.map { |x| [x.user_id, x.username, to_tz(x.date_first), to_tz(x.date_last), x.count] }
+      @access_logs = client.team_accessLogs.logins
 
       @debug_admin = debug_messages.map(&:pretty_inspect).join("\n")
     else
