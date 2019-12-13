@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: MyString
+  channel: MyString
+  message: MyText
+  ts: 2019-11-27 07:23:54
+
+two:
+  user: MyString
+  channel: MyString
+  message: MyText
+  ts: 2019-11-27 07:23:54
